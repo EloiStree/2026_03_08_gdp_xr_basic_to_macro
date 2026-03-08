@@ -1,0 +1,216 @@
+[gd_scene format=3 uid="uid://dp375i0vexnuh"]
+
+[ext_resource type="Script" uid="uid://ubxq7dalpoj6" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/collision/macro_xr_enter_exit_with_tag_check.gd" id="1_euncs"]
+[ext_resource type="Script" uid="uid://bwh6543hr7o2v" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/macro_xr_default_macro_group_enter_exit_emitter.tscn.gd" id="1_s71l5"]
+[ext_resource type="Script" uid="uid://cces5hp228kxs" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/collision/macro_xr_interaction_source.gd" id="2_k5j7s"]
+[ext_resource type="Script" uid="uid://bbb2411ed3swg" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/collision/macro_xr_array_node_scripts_enter_exit_group_events.gd" id="3_sk8y1"]
+[ext_resource type="Script" uid="uid://gxabf0tcac4x" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/collision/macro_xr_enter_exit_with_tag_check_interactable.gd" id="4_q3n7y"]
+[ext_resource type="Script" uid="uid://3rsoa7811n4b" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/for_debugging/macro_xr_change_color_mesh_instance_3d.gd" id="5_pp5om"]
+[ext_resource type="Script" uid="uid://noiys6lioo4g" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/macro_xr_input_map_action_down_up.gd" id="6_sk8y1"]
+[ext_resource type="Script" uid="uid://cup3pkbfc0jcs" path="res://addons/2026_03_08_gdp_xr_basic_to_macro/script/laser_pointer/laser_pointer_no_raycast.gd" id="8_r3vaw"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f056p"]
+radius = 0.53115886
+
+[sub_resource type="SphereMesh" id="SphereMesh_2nnkb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp5om"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_k5j7s"]
+radius = 0.091126874
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_r3vaw"]
+height = 0.01
+radius = 0.01
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_r3vaw"]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3vaw"]
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="WorkspaceCollisionAndRaycast" type="Node3D" unique_id=2099510376]
+
+[node name="Sphere A" type="RigidBody3D" parent="." unique_id=1179886300]
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sphere A" unique_id=1810692857]
+shape = SubResource("SphereShape3D_f056p")
+
+[node name="Area3D" type="Area3D" parent="Sphere A" unique_id=1848700797]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Sphere A/Area3D" unique_id=1585192644]
+shape = SubResource("SphereShape3D_f056p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere A" unique_id=2002636042]
+mesh = SubResource("SphereMesh_2nnkb")
+surface_material_override/0 = SubResource("StandardMaterial3D_pp5om")
+
+[node name="ListenToCollisionWithTag" type="Node" parent="Sphere A" unique_id=930270890 node_paths=PackedStringArray("area3d_to_observe")]
+script = ExtResource("1_euncs")
+area3d_to_observe = NodePath("../Area3D")
+allow_tag_scripts = Array[Script]([ExtResource("2_k5j7s")])
+use_debug_print = true
+metadata/_custom_type_script = "uid://ubxq7dalpoj6"
+
+[node name="OnEnterExitScript" type="Node" parent="Sphere A/ListenToCollisionWithTag" unique_id=179560386]
+script = ExtResource("3_sk8y1")
+use_debug_prints = true
+metadata/_custom_type_script = "uid://bbb2411ed3swg"
+
+[node name="OnSourceInteraction" type="Node" parent="Sphere A/ListenToCollisionWithTag" unique_id=404477148]
+script = ExtResource("4_q3n7y")
+use_debug_prints = true
+metadata/_custom_type_script = "uid://gxabf0tcac4x"
+
+[node name="ColorDebugChange" type="Node" parent="Sphere A/ListenToCollisionWithTag" unique_id=1884150222]
+
+[node name="OnEnterExit" type="Node" parent="Sphere A/ListenToCollisionWithTag/ColorDebugChange" unique_id=50389639 node_paths=PackedStringArray("mesh_instance_to_affect")]
+script = ExtResource("5_pp5om")
+mesh_instance_to_affect = [NodePath("../../../MeshInstance3D")]
+metadata/_custom_type_script = "uid://3rsoa7811n4b"
+
+[node name="OnInteract" type="Node" parent="Sphere A/ListenToCollisionWithTag/ColorDebugChange" unique_id=306421896 node_paths=PackedStringArray("mesh_instance_to_affect")]
+script = ExtResource("5_pp5om")
+mesh_instance_to_affect = [NodePath("../../../MeshInstance3D")]
+true_color = Color(6.2569975e-06, 0.9792538, 0.6114057, 1)
+false_color = Color(0.9556368, 0.13879392, 0.39590412, 1)
+metadata/_custom_type_script = "uid://3rsoa7811n4b"
+
+[node name="OnEnterInteracting" type="Node" parent="Sphere A/ListenToCollisionWithTag/ColorDebugChange" unique_id=137216856 node_paths=PackedStringArray("mesh_instance_to_affect")]
+script = ExtResource("5_pp5om")
+mesh_instance_to_affect = [NodePath("../../../MeshInstance3D")]
+true_color = Color(0.8955065, 0.8507044, 0, 1)
+false_color = Color(0.8381356, 0.0011653417, 0.92352664, 1)
+metadata/_custom_type_script = "uid://3rsoa7811n4b"
+
+[node name="Enter Exit" type="Node" parent="Sphere A" unique_id=1981915998]
+script = ExtResource("1_s71l5")
+macro_array_enter = Array[String](["start_aiming"])
+macro_array_exit = Array[String](["stop_aiming"])
+metadata/_custom_type_script = "uid://bwh6543hr7o2v"
+
+[node name="FingerRightIndex" type="RigidBody3D" parent="." unique_id=1250967302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8537921)
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FingerRightIndex" unique_id=656670837]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+shape = SubResource("SphereShape3D_f056p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="FingerRightIndex" unique_id=245350724]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+mesh = SubResource("SphereMesh_2nnkb")
+
+[node name="MacroXrInteractionSource" type="Node" parent="FingerRightIndex" unique_id=383576560 node_paths=PackedStringArray("source_root_node")]
+script = ExtResource("2_k5j7s")
+source_display_name = "Finger Right Index"
+source_code_id_name = "finger_right_index"
+source_root_node = NodePath("..")
+is_requesting_interaction = true
+
+[node name="Input On Off" type="Node" parent="FingerRightIndex/MacroXrInteractionSource" unique_id=1166606019]
+script = ExtResource("6_sk8y1")
+action_name = "trigger"
+
+[node name="Area3D" type="Area3D" parent="FingerRightIndex" unique_id=1629046438]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.011113465)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FingerRightIndex/Area3D" unique_id=105874919]
+shape = SubResource("SphereShape3D_k5j7s")
+
+[node name="HeadPoint" type="Node" parent="." unique_id=1376050952]
+
+[node name="HeadGaze" type="RigidBody3D" parent="HeadPoint" unique_id=190037922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.054519, 0, 0.8537921)
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadPoint/HeadGaze" unique_id=1064883896]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+shape = SubResource("SphereShape3D_f056p")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HeadPoint/HeadGaze" unique_id=1053673023]
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+mesh = SubResource("SphereMesh_2nnkb")
+
+[node name="MacroXrInteractionSource" type="Node" parent="HeadPoint/HeadGaze" unique_id=932948301 node_paths=PackedStringArray("source_root_node")]
+script = ExtResource("2_k5j7s")
+source_display_name = "Finger Right Index"
+source_code_id_name = "finger_right_index"
+source_root_node = NodePath("..")
+is_requesting_interaction = true
+
+[node name="Input On Off" type="Node" parent="HeadPoint/HeadGaze/MacroXrInteractionSource" unique_id=894475266]
+script = ExtResource("6_sk8y1")
+action_name = "trigger"
+
+[node name="Area3D" type="Area3D" parent="HeadPoint/HeadGaze" unique_id=1902576531]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.011113465)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HeadPoint/HeadGaze/Area3D" unique_id=1439098171]
+shape = SubResource("SphereShape3D_k5j7s")
+
+[node name="LaserPointer" type="Node3D" parent="." unique_id=297646614 node_paths=PackedStringArray("origin_node", "root_to_move", "mesh_instance", "collision_shape")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.09616709, 0, 1.5416758)
+script = ExtResource("8_r3vaw")
+origin_node = NodePath(".")
+beam_radius = 0.01
+beam_length = 2.0
+root_to_move = NodePath("LaserBeamRigidBody")
+mesh_instance = NodePath("LaserBeamRigidBody/MeshInstance3D")
+collision_shape = NodePath("LaserBeamRigidBody/CollisionShape3D")
+
+[node name="LaserBeamRigidBody" type="RigidBody3D" parent="LaserPointer" unique_id=526732649]
+gravity_scale = 0.0
+lock_rotation = true
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaserPointer/LaserBeamRigidBody" unique_id=1937245533]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_r3vaw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="LaserPointer/LaserBeamRigidBody" unique_id=418594512]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_r3vaw")
+surface_material_override/0 = SubResource("StandardMaterial3D_r3vaw")
+
+[node name="MacroXrInteractionSource" type="Node" parent="LaserPointer/LaserBeamRigidBody" unique_id=187510192 node_paths=PackedStringArray("source_root_node")]
+script = ExtResource("2_k5j7s")
+source_display_name = "Laser Beam"
+source_code_id_name = "laser_beam"
+source_root_node = NodePath("..")
+is_requesting_interaction = true
+
+[node name="Input On Off" type="Node" parent="LaserPointer/LaserBeamRigidBody/MacroXrInteractionSource" unique_id=816249949]
+script = ExtResource("6_sk8y1")
+action_name = "trigger"
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=695162210]
+transform = Transform3D(1, 0, 0, 0, 0.93046874, 0.3663713, 0, -0.3663713, 0.93046874, 0, 0.28956014, 1.8393437)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1878869926]
+transform = Transform3D(1, 0, 0, 0, 0.4671121, 0.8841981, 0, -0.8841981, 0.4671121, 0, 0.76341635, 1.2118442)
+
+[connection signal="on_valid_enter_event_with_source" from="Sphere A/ListenToCollisionWithTag" to="Sphere A/ListenToCollisionWithTag/OnEnterExitScript" method="add_node_to_dictionary"]
+[connection signal="on_valid_enter_event_with_source" from="Sphere A/ListenToCollisionWithTag" to="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" method="add_note_source_to_observe"]
+[connection signal="on_valid_exit_event_with_source" from="Sphere A/ListenToCollisionWithTag" to="Sphere A/ListenToCollisionWithTag/OnEnterExitScript" method="remove_node_from_dictionary"]
+[connection signal="on_valid_exit_event_with_source" from="Sphere A/ListenToCollisionWithTag" to="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" method="remove_note_source_to_observe"]
+[connection signal="on_pressed_event_by_one_source_script" from="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" to="Sphere A/ListenToCollisionWithTag/ColorDebugChange/OnInteract" method="set_state_as_true"]
+[connection signal="on_released_event_by_one_source_script" from="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" to="Sphere A/ListenToCollisionWithTag/ColorDebugChange/OnInteract" method="set_state_as_false"]
+[connection signal="on_source_entered_while_beeing_interacting" from="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" to="Sphere A/ListenToCollisionWithTag/ColorDebugChange/OnEnterInteracting" method="set_state_as_true" unbinds=1]
+[connection signal="on_source_exited_while_beeing_interacting" from="Sphere A/ListenToCollisionWithTag/OnSourceInteraction" to="Sphere A/ListenToCollisionWithTag/ColorDebugChange/OnEnterInteracting" method="set_state_as_false" unbinds=1]
+[connection signal="on_down_up" from="FingerRightIndex/MacroXrInteractionSource/Input On Off" to="FingerRightIndex/MacroXrInteractionSource" method="set_requesting_interaction_as"]
+[connection signal="on_down_up" from="HeadPoint/HeadGaze/MacroXrInteractionSource/Input On Off" to="HeadPoint/HeadGaze/MacroXrInteractionSource" method="set_requesting_interaction_as"]
+[connection signal="on_down_up" from="LaserPointer/LaserBeamRigidBody/MacroXrInteractionSource/Input On Off" to="LaserPointer/LaserBeamRigidBody/MacroXrInteractionSource" method="set_requesting_interaction_as"]
