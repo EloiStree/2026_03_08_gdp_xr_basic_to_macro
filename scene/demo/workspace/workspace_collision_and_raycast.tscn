@@ -12,9 +12,9 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_f056p"]
 radius = 0.53115886
 
-[sub_resource type="SphereMesh" id="SphereMesh_2nnkb"]
+[sub_resource type="SphereMesh" id="SphereMesh_r3vaw"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pp5om"]
+[sub_resource type="SphereMesh" id="SphereMesh_2nnkb"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_k5j7s"]
 radius = 0.091126874
@@ -48,8 +48,7 @@ shape = SubResource("SphereShape3D_f056p")
 shape = SubResource("SphereShape3D_f056p")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Sphere A" unique_id=2002636042]
-mesh = SubResource("SphereMesh_2nnkb")
-surface_material_override/0 = SubResource("StandardMaterial3D_pp5om")
+mesh = SubResource("SphereMesh_r3vaw")
 
 [node name="ListenToCollisionWithTag" type="Node" parent="Sphere A" unique_id=930270890 node_paths=PackedStringArray("area3d_to_observe")]
 script = ExtResource("1_euncs")
